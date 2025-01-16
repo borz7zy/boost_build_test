@@ -23,7 +23,7 @@ jobs:
           cmake --build build --config Release
 
       - name: Test binary
-        run: ./build/boost_example
+        run: ./build/boost-test
 
   build-windows:
     name: Build on Windows
@@ -42,4 +42,4 @@ jobs:
           cmake --build build --config Release
 
       - name: Test binary
-        run: build\Release\boost_example.exe
+        run: build\Release\boost-test.exe
