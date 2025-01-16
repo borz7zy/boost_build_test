@@ -3,7 +3,7 @@ project(boost-test)
 
 set(CMAKE_CXX_STANDARD 17)
 
-find_package(Boost 1.74 REQUIRED)
+find_package(Boost 1.74.0 REQUIRED)
 
 add_executable(${PROJECT_NAME} main.cpp)
 
