@@ -1,0 +1,45 @@
+name: Build and Test
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build-linux:
+    name: Build on Linux
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y cmake g++ libboost-all-dev
+
+      - name: Configure and Build
+        run: |
+          cmake -Bbuild -H. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
+          cmake --build build --config Release
+
+      - name: Test binary
+        run: ./build/boost_example
+
+  build-windows:
+    name: Build on Windows
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          choco install boost-msvc-14.1 -y
+
+      - name: Configure and Build
+        run: |
+          cmake -Bbuild -H. -DCMAKE_BUILD_TYPE=Release -G "Visual Studio 16 2019" -A Win32 -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
+          cmake --build build --config Release
+
+      - name: Test binary
+        run: build\Release\boost_example.exe
